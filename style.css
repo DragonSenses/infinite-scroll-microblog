@@ -33,6 +33,7 @@ body {
 h1 {
   margin-bottom: 0;
   text-align: center;
+  /* display: none; */
 }
 
 .search-container {
@@ -88,4 +89,50 @@ h1 {
   align-items: center;
   justify-content: center;
   padding: 7px 10px;
+}
+
+.loader {
+  opacity: 0;
+  display: flex;
+  position: fixed;
+  bottom: 50px;
+  transition: opacity 0.3s ease-in;
+}
+
+.loader.show {
+  opacity: 1;
+}
+
+.circle {
+  background-color: #fff;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 5px;
+  /* Add animation called bounce */
+  animation: bounce 0.5s ease-in infinite;
+}
+
+/* Using pseudo selector, have the 2nd circle move with a delay */
+.circle:nth-of-type(2) {
+  animation-delay: 0.1s;
+}
+
+/* Have the 3nd circle move with a larger delay */
+.circle:nth-of-type(3) {
+  animation-delay: 0.2s;
+}
+
+/* Animation of the loader */
+@keyframes bounce {
+  /* At these timeframes of animation */
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  /* Have the circles bounce up at 50% */
+  50% {
+    transform: translateY(-10px);
+  }
 }
