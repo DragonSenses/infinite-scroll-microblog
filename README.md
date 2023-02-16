@@ -19,7 +19,7 @@ HTML5, CSS3, JavaScript
 - [x] Create custom UI
 - [x] CSS loader animation
 - [x] Fetch initial posts from API and display
-- [ ] Fetch next set of posts via scroll down 
+- [x] Fetch next set of posts via scroll down 
 - [ ] Infinite scroll down and show loader animation
 - [ ] Seach & filter for fetched posts via search bar
 
@@ -121,3 +121,30 @@ Adding another parameter at the end `&_page=3`
 ```
 
 We get the 3rd page of posts (see the `id`) limited to 3 posts.
+
+To make use of this:
+
+```js
+// limit number of posts, and what page
+let limit = 4;
+let page = 1;
+
+/**
+ * Fetch the posts from the API
+ * @returns Promise of data representing the posts
+ */
+async function getPosts() {
+  const response = await 
+    fetch(`https://jsonplaceholder.typicode.com/posts?_limit=${limit}&_page=${page}`);
+
+  // Returns a promise with that data
+  const data = await response.json();
+
+  // data is a promise, so must use async await
+  return data;
+}
+```
+
+## Issues I came across
+
+- [ ] Event handler that manages the scrolling and loading posts runs onload

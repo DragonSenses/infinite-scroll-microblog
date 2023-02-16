@@ -1,10 +1,10 @@
 const searchContainer = document.getElementById('search-container');
 const postsContainer = document.getElementById('posts-container');
-const loading = document.querySelector('.loader');
+const loader = document.querySelector('.loader');
 const filter = document.getElementById('filter');
 
 // limit number of posts, and what page
-let limit = 3;
+let limit = 4;
 let page = 1;
 
 /**
@@ -47,5 +47,40 @@ async function showPosts() {
 
 }
 
+/**
+ * Show the loader and fetch more posts.
+ */
+function showLoading(){
+  // Append 'show' class to loader
+  loader.classList.add('show');
+
+  setTimeout(()=> {
+    loader.classList.remove('show');
+
+    setTimeout(() => {
+      page++;
+      showPosts();
+    },300);
+  }, 1000);
+}
+
 // Show initial posts
 showPosts();
+
+/* Event Listeners */
+
+// Scroll down 
+window.addEventListener('scroll', () => {
+  // scrollTop - range between 0 to 380 for 4 posts (note may contain decimals)
+  // scrollHeight - height of entire document [1413]
+  // clientHeight - [1042]
+  console.log(document.documentElement.scrollTop);
+  // console.log(document.documentElement.scrollHeight);
+  // console.log(document.documentElement.clientHeight);
+  const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+
+  if (scrollTop + clientHeight >= scrollHeight - 5){
+    console.log('time to load');
+    showLoading();
+  }
+});
