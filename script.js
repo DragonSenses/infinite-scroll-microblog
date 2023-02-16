@@ -67,20 +67,36 @@ function showLoading(){
 // Show initial posts
 showPosts();
 
-/* Event Listeners */
-
-// Scroll down 
-window.addEventListener('scroll', () => {
+/**
+ * Event handler for when the user scrolls down near the end of the page,
+ * it loads the posts while showing the loader animation. 
+ */
+function loadPosts(){
   // scrollTop - range between 0 to 380 for 4 posts (note may contain decimals)
   // scrollHeight - height of entire document [1413]
   // clientHeight - [1042]
-  console.log(document.documentElement.scrollTop);
   // console.log(document.documentElement.scrollHeight);
   // console.log(document.documentElement.clientHeight);
+  console.log(document.documentElement.scrollTop);
+
+  /* Issue is that onload of page, more posts are loaded immediately when 
+  scrollTop first evaluates to around ~15. Abort early so that onload this
+  bug is prevented. */
+  if(document.documentElement.scrollTop < 20) {
+    return;
+  }
+  
   const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
 
   if (scrollTop + clientHeight >= scrollHeight - 5){
     console.log('time to load');
     showLoading();
   }
-});
+}
+
+
+
+/* Event Listeners */
+
+// Scroll down 
+window.addEventListener('scroll', loadPosts);

@@ -147,4 +147,6 @@ async function getPosts() {
 
 ## Issues I came across
 
-- [ ] Event handler that manages the scrolling and loading posts runs onload
+- [x] Event handler that manages the scrolling and loading posts runs onload of the webpage, the issue was that onload `document.documentElement.scrollTop` would evaluate to roughly ~15 and then 0. So fixed the issue by aborting early in the `loadPosts()` function.
+
+- [ ] Also throttled the scrolling eventHandler to prevent it from loading more than once, although the `setTimeout` within `showLoading()` function mitigates this bug somewhat, it hacks away at the leaves and not strike the root of the bug. 
