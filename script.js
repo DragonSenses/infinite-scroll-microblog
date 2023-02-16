@@ -94,9 +94,57 @@ function loadPosts(){
   }
 }
 
+/**
+ * Decorator wrapper that throttles the passed in function with a given delay. 
+ * When a function is called multiple times, it passes the call to f at maximum
+ * once per ms milliseconds. Throttle runs it not more often than given ms time
+ * For regular updates that shouldn't be very often.
+ * 
+ * 1. During the first call, the wrapper just runs func and sets the cooldown 
+ * state (isThrottled = true)
+ * 2. In this state all calls are memorized in savedArgs/savedthis. Both the 
+ * context and arguments are equally important and should be memorized. Need
+ * them simultaneously to reproduce the call. 
+ * 3. After ms milliseconds pass, setTimeout triggers. The cooldown state is
+ * removed (isThrottled = false) and, if we had ignored calls, wrapper is 
+ * executed with the last memorized arguments and context. 
+ * @param {function} func the function to wrap
+ * @param {number} ms the amount of milliseconds to throttle function by
+ */
+function throttle(func, ms){
+  
+  let isThrottled = false,
+    savedArgs,
+    savedThis;
+
+  function wrapper() {
+
+    if (isThrottled) { // (2)
+      savedArgs = arguments;
+      savedThis = this;
+      return;
+    }
+    isThrottled = true;
+
+    func.apply(this, arguments); // (1)
+
+    setTimeout(function() {
+      isThrottled = false; // (3)
+      if (savedArgs) {
+        wrapper.apply(savedThis, savedArgs);
+        savedArgs = savedThis = null;
+      }
+    }, ms);
+  }
+
+  return wrapper;
+}
+/* Decorator will forward the call loadPosts() at maximum once per 300ms */
+
+/* Throttle the loadPosts, to run at not more often than time: 300ms */
+const loadPosts300 = throttle(loadPosts, 300);
 
 
 /* Event Listeners */
-
-// Scroll down 
-window.addEventListener('scroll', loadPosts);
+// On scroll down 
+window.addEventListener('scroll', loadPosts300);
