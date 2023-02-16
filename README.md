@@ -16,11 +16,16 @@ HTML5, CSS3, JavaScript
 
 ## Specifications
 
-- 
+- [x] Create custom UI 
+- [x] CSS loader animation
+- [ ] Fetch initial posts from API and display
+- [ ] Fetch next set of posts by scroll down while showing loader
+- [ ] Seach & filter for fetched posts via search bar
 
 # How to use
 
-1. Scroll down & read
+1. Scroll down
+2. Read posts
 
 # Instructions to run a local copy
 
@@ -29,3 +34,7 @@ HTML5, CSS3, JavaScript
 2. Go to the directory (folder) where code is stored 
 
 3. Open up `index.html` in any browser
+
+# Attribution 
+
+Assets such as `bleeter-log.png` and `clouds.png` found at https://gta.fandom.com/wiki/Bleeter
