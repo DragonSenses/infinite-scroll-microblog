@@ -1,5 +1,5 @@
 # infinite-scroll-microblog
-Just a small project to demonstrate infinite scrolling on a microblog
+Just a small project to demonstrate infinite scrolling, Fetch API and CSS animations on a microblog.
 
 # Description
 
@@ -18,7 +18,7 @@ HTML5, CSS3, JavaScript
 
 - [x] Create custom UI
 - [x] CSS loader animation
-- [x] Fetch initial posts from API and display
+- [x] Fetch and display initial posts from API with `async`,`await` & `Promise`
 - [x] Fetch next set of posts via scroll down 
 - [x] Infinite scroll down and show loader animation
 - [x] Seach & filter for fetched posts via search bar
@@ -38,7 +38,7 @@ HTML5, CSS3, JavaScript
 
 # Attribution
 
-Assets such as `bleeter-log.png` and `clouds.png` found at https://gta.fandom.com/wiki/Bleeter
+Assets such as `bleeter-logo.png` and `clouds.png` found at [Bleeter](https://gta.fandom.com/wiki/Bleeter).
 
 ---
 
@@ -149,6 +149,6 @@ async function getPosts() {
 
 - [x] Event handler that manages the scrolling and loading posts runs onload of the webpage, the issue was that onload `document.documentElement.scrollTop` would evaluate to roughly ~15 and then 0. So fixed the issue by aborting early in the `loadPosts()` function.
 
-- [x] Also throttled the scrolling eventHandler to prevent it from loading more than once, although the `setTimeout` within `showLoading()` function mitigates this bug somewhat, it hacks away at the leaves and does not strike the root of the bug. So throttling the `loadPosts()` function by having a `throttle` decorator function wrapper have it run not more often than given `ms` time. This is good for regular updates but not too frequent. 
+- [x] Also throttled the scrolling eventHandler to prevent it from loading too often, although the `setTimeout` within `showLoading()` function mitigates this bug somewhat, it hacks away at the leaves and does not strike at the root of the bug. So throttling the `loadPosts()` function by having a `throttle` decorator function wrapper have it run not more often than given `ms` time. This is so the scroll down feels responsive to the user, still updates regularly, but not so frequently that it calls `loadPosts()` more than once.
 
-- [x] When user scrolls up right after scrolling down to load posts, multiple calls to `loadPosts()` happen so fixed this issue by keeping track of the maximum `scrollTop` value as `maxScrollTop` and not to load posts again when current `scrollTop` is less than it.
+- [x] When user scrolls up right after scrolling down to load posts, multiple calls to `loadPosts()` happen so fixed this issue by keeping track of the maximum `scrollTop` value as `maxScrollTop`. Only one call to `loadPosts()` would occur when current `scrollTop` exceeds `maxScrollTop` and `(scrollTop + clientHeight >= scrollHeight - 5)` check for when the user scrolls near the end of the page.
