@@ -1,7 +1,6 @@
-const searchContainer = document.getElementById('search-container');
 const postsContainer = document.getElementById('posts-container');
 const loader = document.querySelector('.loader');
-const filter = document.getElementById('filter');
+const search = document.getElementById('search');
 
 // The time in milliseconds for the loader to disappear while fetching posts
 const loadingTime = 700; 
@@ -151,7 +150,34 @@ function throttle(func, ms){
 /* Throttle the loadPosts, to run at not more often than time: 100ms */
 const loadPosts100 = throttle(loadPosts, 100);
 
+/**
+ * Filter the posts in the DOM by the input search term.
+ * @param {Event} event the event object to filter target value with
+ */
+function filterPosts(event){
+  // Capture the search term from the input
+  const term = event.target.value.toLowerCase();
+
+  /* Get the nodeList of posts */
+  const posts = document.querySelectorAll('.post');
+
+  posts.forEach(post => {
+    const title = post.querySelector('.post-title').innerText.toLowerCase();
+    const body = post.querySelector('.post-body').innerText.toLowerCase();
+
+    // Find matching searching terms in both title and body
+    if(title.indexOf(term) > -1 || body.indexOf(term) > -1){
+      // Show the posts
+      post.style.display = 'flex';
+    } else {
+      post.style.display = 'none';
+    }
+  });
+}
 
 /* Event Listeners */
 // On scroll down 
 window.addEventListener('scroll', loadPosts100);
+
+// On input text in search bar
+search.addEventListener('input', filterPosts);
