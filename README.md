@@ -151,4 +151,4 @@ async function getPosts() {
 
 - [x] Also throttled the scrolling eventHandler to prevent it from loading more than once, although the `setTimeout` within `showLoading()` function mitigates this bug somewhat, it hacks away at the leaves and does not strike the root of the bug. So throttling the `loadPosts()` function by having a `throttle` decorator function wrapper have it run not more often than given `ms` time. For regular updates that shouldn't be very often. 
 
-- [ ] Multiple calls to `loadPosts()` when user has fully scrolled downward but also scrolls upward. 
+- [x] When user scrolls up right after scrolling down to load posts, multiple calls to `loadPosts()` happen so fixed this issue by keeping track of the maximum `scrollTop` value as `maxScrollTop` and not to load posts again when current `scrollTop` is less than it.

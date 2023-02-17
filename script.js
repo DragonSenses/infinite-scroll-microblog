@@ -3,6 +3,9 @@ const postsContainer = document.getElementById('posts-container');
 const loader = document.querySelector('.loader');
 const filter = document.getElementById('filter');
 
+// The time in milliseconds for the loader to disappear while fetching posts
+const loadingTime = 700; 
+
 // limit number of posts, and what page
 let limit = 4;
 let page = 1;
@@ -54,19 +57,21 @@ function showLoading(){
   // Append 'show' class to loader
   loader.classList.add('show');
 
+  // Delay time for loader to disappear
   setTimeout(()=> {
     loader.classList.remove('show');
 
     setTimeout(() => {
       page++;
       showPosts();
-    },300);
-  }, 1000);
+    },50);
+  }, loadingTime);
 }
 
 // Show initial posts
 showPosts();
 
+let maxScrollTop = 0;
 /**
  * Event handler for when the user scrolls down near the end of the page,
  * it loads the posts while showing the loader animation. 
@@ -85,11 +90,13 @@ function loadPosts(){
   if(document.documentElement.scrollTop < 20) {
     return;
   }
-  
+
   const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
 
-  if (scrollTop + clientHeight >= scrollHeight - 5){
+  if ( (scrollTop > maxScrollTop) 
+    && (scrollTop + clientHeight >= scrollHeight - 5)){
     console.log('time to load');
+    maxScrollTop = scrollTop;
     showLoading();
   }
 }
@@ -139,12 +146,12 @@ function throttle(func, ms){
 
   return wrapper;
 }
-/* Decorator will forward the call loadPosts() at maximum once per 300ms */
+/* Decorator will forward the call loadPosts() at maximum once per 100ms */
 
-/* Throttle the loadPosts, to run at not more often than time: 300ms */
-const loadPosts300 = throttle(loadPosts, 300);
+/* Throttle the loadPosts, to run at not more often than time: 100ms */
+const loadPosts100 = throttle(loadPosts, 100);
 
 
 /* Event Listeners */
 // On scroll down 
-window.addEventListener('scroll', loadPosts300);
+window.addEventListener('scroll', loadPosts100);
