@@ -20,8 +20,8 @@ HTML5, CSS3, JavaScript
 - [x] CSS loader animation
 - [x] Fetch initial posts from API and display
 - [x] Fetch next set of posts via scroll down 
-- [ ] Infinite scroll down and show loader animation
-- [ ] Seach & filter for fetched posts via search bar
+- [x] Infinite scroll down and show loader animation
+- [x] Seach & filter for fetched posts via search bar
 
 # How to use
 
@@ -149,6 +149,6 @@ async function getPosts() {
 
 - [x] Event handler that manages the scrolling and loading posts runs onload of the webpage, the issue was that onload `document.documentElement.scrollTop` would evaluate to roughly ~15 and then 0. So fixed the issue by aborting early in the `loadPosts()` function.
 
-- [x] Also throttled the scrolling eventHandler to prevent it from loading more than once, although the `setTimeout` within `showLoading()` function mitigates this bug somewhat, it hacks away at the leaves and does not strike the root of the bug. So throttling the `loadPosts()` function by having a `throttle` decorator function wrapper have it run not more often than given `ms` time. For regular updates that shouldn't be very often. 
+- [x] Also throttled the scrolling eventHandler to prevent it from loading more than once, although the `setTimeout` within `showLoading()` function mitigates this bug somewhat, it hacks away at the leaves and does not strike the root of the bug. So throttling the `loadPosts()` function by having a `throttle` decorator function wrapper have it run not more often than given `ms` time. This is good for regular updates but not too frequent. 
 
 - [x] When user scrolls up right after scrolling down to load posts, multiple calls to `loadPosts()` happen so fixed this issue by keeping track of the maximum `scrollTop` value as `maxScrollTop` and not to load posts again when current `scrollTop` is less than it.
