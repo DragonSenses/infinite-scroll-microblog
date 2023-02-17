@@ -6,7 +6,7 @@ const search = document.getElementById('search');
 const loadingTime = 700; 
 
 // limit number of posts, and what page
-let limit = 4;
+let limit = 7;
 let page = 1;
 
 /**
